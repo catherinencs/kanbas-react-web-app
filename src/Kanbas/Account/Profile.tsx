@@ -2,53 +2,53 @@ import { Link } from "react-router-dom";
 
 export default function Profile() {
   return (
-    <div id="wd-profile-screen">
+    <div id="wd-profile-screen" className="p-4">
       <h3>Profile</h3>
       <input 
         defaultValue="alice" 
         placeholder="username" 
-        className="wd-username" 
-      /><br />
+        className="form-control mb-2" 
+      />
       
       <input 
         defaultValue="123" 
         placeholder="password" 
         type="password" 
-        className="wd-password" 
-      /><br />
+        className="form-control mb-2" 
+      />
       
       <input 
         defaultValue="Alice" 
         placeholder="First Name" 
-        id="wd-firstname" 
-      /><br />
+        className="form-control mb-2" 
+      />
       
       <input 
         defaultValue="Wonderland" 
         placeholder="Last Name" 
-        id="wd-lastname" 
-      /><br />
+        className="form-control mb-2" 
+      />
       
       <input 
         defaultValue="2000-01-01" 
         type="date" 
-        id="wd-dob" 
-      /><br />
+        className="form-control mb-2" 
+      />
       
       <input 
-        defaultValue="alice@wonderland" 
+        defaultValue="alice@wonderland.com" 
         type="email" 
-        id="wd-email" 
-      /><br />
+        className="form-control mb-2" 
+      />
       
-      <select defaultValue="FACULTY" id="wd-role">
+      <select defaultValue="FACULTY" className="form-control mb-2">
         <option value="USER">User</option>
         <option value="ADMIN">Admin</option>
         <option value="FACULTY">Faculty</option>
         <option value="STUDENT">Student</option>
-      </select><br />
+      </select>
       
-      <Link to="/Kanbas/Account/Signin">Sign out</Link>
+      <Link to="/Kanbas/Account/Signin" className="btn btn-danger w-100">Sign out</Link>
     </div>
   );
 }

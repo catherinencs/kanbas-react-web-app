@@ -1,0 +1,232 @@
+body   {  margin: 0;  padding: 0;  }
+body * {  font-family: Arial, Helvetica, sans-serif;  }
+
+@media (min-width: 768px) {
+  #wd-kanbas .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+/* Custom style for the active link */
+.list-group.wd > .list-group-item.active {
+    color: black;
+    background-color: white;
+    border-left: 3px solid black !important;
+    font-weight: bold;
+  }
+  
+  /* Style for all other non-active links */
+  .list-group.wd > .list-group-item {
+    color: red;
+    background-color: transparent;
+    border-color: transparent;
+    transition: background-color 0.3s ease;
+    font-weight: normal;
+  }
+  
+  /* On hover, change background color */
+  .list-group.wd > .list-group-item:hover {
+    background-color: #f8f9fa; 
+  }
+  
+  /* Styling for Module Section */
+#wd-modules-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#wd-select-publish {
+  width: auto;
+}
+
+.module-container {
+  margin-top: 20px;
+}
+
+.module {
+  margin-bottom: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.module-header {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.list-group-item {
+  padding: 10px 15px;
+}
+
+/* Green Checkmark Styling */
+.module .module-header .d-flex .text-success {
+  color: green;
+}
+
+/* Styling for the Sidebar (Course Status) */
+#wd-course-status {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+.wd-status-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.wd-status-button {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.wd-action-button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#wd-course-status {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+#wd-course-status h2 {
+  margin-bottom: 20px;
+}
+
+#wd-course-status .btn {
+  background-color: #e9ecef;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#wd-course-status .btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+#wd-course-status .btn-light {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+#wd-course-status .btn-light:hover {
+  background-color: #e2e6ea;
+}
+
+#wd-course-status .btn-light .me-2 {
+  font-size: 16px; /* Icon size */
+}
+
+/* Adjust for hover effect */
+#wd-course-status .btn:hover {
+  background-color: #e2e6ea;
+}
+
+#wd-modules-controls {
+  padding: 10px 0;
+}
+
+#wd-modules-controls .dropdown-menu {
+  min-width: 250px;
+}
+
+#wd-modules-controls .btn-lg {
+  padding: 10px 20px;
+}
+
+#wd-modules-controls .btn-danger {
+  background-color: #dc3545;
+}
+
+#wd-modules-controls .btn-secondary {
+  background-color: #6c757d;
+}
+
+#wd-publish-all-btn {
+  min-width: 160px;
+}
+
+.btn-secondary {
+  --bs-btn-color: #000 !important;
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+  --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+  --bs-list-group-border-color: gray;
+}
+.wd-lesson {
+  border-left: 3px solid green !important;
+}
+
+/* Green left border for assignment items */
+.wd-assignment-list-item {
+  border-left: 5px solid green;
+}
+
+/* Search bar style */
+#wd-search-assignment {
+  border-radius: 0;
+}
+
+/* Assignment link style */
+.wd-assignment-link {
+  font-weight: bold;
+  color: #000;
+}
+
+.wd-assignment-link:hover {
+  text-decoration: underline;
+}
+
+#wd-add-assignment-group {
+  border: 1px solid red;
+  color: red;
+}
+
+#wd-add-assignment {
+  background-color: red;
+  color: white;
+}
+
+.text-success {
+  color: green !important;
+}
+
+.wd-assignment-list-item {
+  background-color: #f8f9fa; /* Light grey background */
+  border: 1px solid #ccc; /* Light grey border */
+  border-left: 3px solid green; /* Green border to the left */
+  padding: 15px; /* Space around the content */
+  margin-bottom: 10px; /* Space between items */
+}

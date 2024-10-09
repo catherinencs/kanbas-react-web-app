@@ -1,23 +1,44 @@
+import { FaBan, FaCheckCircle, FaUpload, FaHome, FaStream, FaBullhorn, FaChartLine, FaBell } from 'react-icons/fa';
+
 export default function CourseStatus() {
-    return (
-        <div id="wd-course-status">
-            <h2>Course Status</h2>
+  return (
+    <div id="wd-course-status">
+      <h2>Course Status</h2>
 
-            {/* Unpublish and Publish buttons */}
-            <div className="wd-status-buttons">
-                <button className="wd-status-button">Unpublish</button>
-                <button className="wd-status-button">Publish</button>
-            </div>
+      {/* Unpublish and Publish buttons */}
+      <div className="d-flex justify-content-between mb-3">
+        <button className="btn btn-light d-flex align-items-center">
+          <FaBan className="me-2" /> Unpublish
+        </button>
+        <button className="btn btn-success d-flex align-items-center">
+          <FaCheckCircle className="me-2" /> Publish
+        </button>
+      </div>
 
-            {/* Other course action buttons */}
-            <div><button className="wd-action-button">Import Existing Content</button></div>
-            <div><button className="wd-action-button">Import from Commons</button></div>
-            <div><button className="wd-action-button">Choose Home Page</button></div>
-            <div><button className="wd-action-button">View Course Stream</button></div>
-            <div><button className="wd-action-button">New Announcement</button></div>
-            <div><button className="wd-action-button">New Analytics</button></div>
-            <div><button className="wd-action-button">View Course Notifications</button></div>
-
-        </div>
-    );
+      {/* Action Buttons */}
+      <div className="course-status-actions">
+        <button className="btn btn-light w-100 text-start d-flex align-items-center mb-2">
+          <FaUpload className="me-2" /> Import Existing Content
+        </button>
+        <button className="btn btn-light w-100 text-start d-flex align-items-center mb-2">
+          <FaUpload className="me-2" /> Import from Commons
+        </button>
+        <button className="btn btn-light w-100 text-start d-flex align-items-center mb-2">
+          <FaHome className="me-2" /> Choose Home Page
+        </button>
+        <button className="btn btn-light w-100 text-start d-flex align-items-center mb-2">
+          <FaStream className="me-2" /> View Course Screen
+        </button>
+        <button className="btn btn-light w-100 text-start d-flex align-items-center mb-2">
+          <FaBullhorn className="me-2" /> New Announcement
+        </button>
+        <button className="btn btn-light w-100 text-start d-flex align-items-center mb-2">
+          <FaChartLine className="me-2" /> New Analytics
+        </button>
+        <button className="btn btn-light w-100 text-start d-flex align-items-center">
+          <FaBell className="me-2" /> View Course Notifications
+        </button>
+      </div>
+    </div>
+  );
 }
