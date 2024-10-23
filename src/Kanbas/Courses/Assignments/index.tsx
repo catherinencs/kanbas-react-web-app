@@ -1,8 +1,13 @@
 import { FaSearch, FaPlus, FaRegClipboard } from "react-icons/fa";
 import { BsGripVertical, BsThreeDotsVertical } from "react-icons/bs";
-import LessonControlButtons from "../Modules/LessonControlButtons"; 
+import { useParams } from "react-router-dom";
+import LessonControlButtons from "../Modules/LessonControlButtons";
+import { assignments } from "../../Database"; 
 
 export default function Assignments() {
+  const { cid } = useParams(); // Get the course ID from the URL params
+  const filteredAssignments = assignments.filter((assignment) => assignment.course === cid); // Filter assignments by course ID
+
   return (
     <div id="wd-assignments" className="p-4">
       {/* Search Bar and Buttons */}
@@ -52,77 +57,39 @@ export default function Assignments() {
 
       {/* Assignment List */}
       <ul id="wd-assignment-list" className="list-group">
-        {/* Assignment 1 */}
-        <li className="wd-assignment-list-item list-group-item ps-3 mb-0" style={{ backgroundColor: "#fff", borderLeft: "4px solid green" }}>
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-start">
-              {/* Icons on the left */}
-              <BsGripVertical className="me-2 fs-4" />
-              <FaRegClipboard className="me-2 fs-4" /> {/* Updated Icon */}
-              <div>
-                {/* Assignment title and description next to the icons */}
-                <a className="wd-assignment-link text-decoration-none" href="#/Kanbas/Courses/1234/Assignments/123">
-                  A1
-                </a>
-                <div className="wd-assignment-details text-muted">
-                  <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 6 at 12:00am | <strong>Due</strong> May 13 at 11:59pm | 100 pts
+        {filteredAssignments.map((assignment) => (
+          <li
+            key={assignment._id}
+            className="wd-assignment-list-item list-group-item ps-3 mb-0"
+            style={{ backgroundColor: "#fff", borderLeft: "4px solid green" }}
+          >
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-start">
+                {/* Icons on the left */}
+                <BsGripVertical className="me-2 fs-4" />
+                <FaRegClipboard className="me-2 fs-4" />
+                <div>
+                  {/* Assignment title and description next to the icons */}
+                  <a
+                    className="wd-assignment-link text-decoration-none"
+                    href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                  >
+                    {assignment.title}
+                  </a>
+                  <div className="wd-assignment-details text-muted">
+                    <span className="text-danger">{assignment.description}</span> | <strong>Not available until</strong> {assignment.availableDate} | <strong>Due</strong> {assignment.dueDate} | {assignment.points} pts
+                  </div>
+                </div>
+              </div>
+              {/* LessonControlButtons wrapped in a div */}
+              <div className="ms-auto">
+                <div className="d-flex align-items-center">
+                  <LessonControlButtons />
                 </div>
               </div>
             </div>
-            {/* LessonControlButtons wrapped in a div */}
-            <div className="ms-auto">
-              <div className="d-flex align-items-center">
-                <LessonControlButtons /> {/* No className applied directly */}
-              </div>
-            </div>
-          </div>
-        </li>
-
-        {/* Assignment 2 */}
-        <li className="wd-assignment-list-item list-group-item ps-3 mb-0" style={{ backgroundColor: "#fff", borderLeft: "4px solid green" }}>
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-start">
-              <BsGripVertical className="me-2 fs-4" />
-              <FaRegClipboard className="me-2 fs-4" />
-              <div>
-                <a className="wd-assignment-link text-decoration-none" href="#/Kanbas/Courses/5678/Assignments/456">
-                  A2
-                </a>
-                <div className="wd-assignment-details text-muted">
-                  <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 13 at 12:00am | <strong>Due</strong> May 20 at 11:59pm | 100 pts
-                </div>
-              </div>
-            </div>
-            <div className="ms-auto">
-              <div className="d-flex align-items-center">
-                <LessonControlButtons /> {/* Wrapped inside div */}
-              </div>
-            </div>
-          </div>
-        </li>
-
-        {/* Assignment 3 */}
-        <li className="wd-assignment-list-item list-group-item ps-3 mb-0" style={{ backgroundColor: "#fff", borderLeft: "4px solid green" }}>
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-start">
-              <BsGripVertical className="me-2 fs-4" />
-              <FaRegClipboard className="me-2 fs-4" />
-              <div>
-                <a className="wd-assignment-link text-decoration-none" href="#/Kanbas/Courses/9101/Assignments/789">
-                  A3
-                </a>
-                <div className="wd-assignment-details text-muted">
-                  <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 20 at 12:00am | <strong>Due</strong> May 27 at 11:59pm | 100 pts
-                </div>
-              </div>
-            </div>
-            <div className="ms-auto">
-              <div className="d-flex align-items-center">
-                <LessonControlButtons /> 
-              </div>
-            </div>
-          </div>
-        </li>
+          </li>
+        ))}
       </ul>
     </div>
   );
