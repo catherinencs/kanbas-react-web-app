@@ -1,7 +1,21 @@
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
+import ModuleEditor from "./ModuleEditor";
+import { useSelector } from "react-redux";
 
-export default function ModulesControls() {
+export default function ModulesControls({
+  moduleName,
+  setModuleName,
+  addModule,
+}: {
+  moduleName: string;
+  setModuleName: (title: string) => void;
+  addModule: () => void;
+}) {
+  // Check if the current user has the FACULTY role
+  const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
+  const isFaculty = currentUser && currentUser.role === "FACULTY";
+
   return (
     <div id="wd-modules-controls" className="text-nowrap d-flex justify-content-between mb-3">
       {/* Collapse All and View Progress buttons */}
@@ -14,55 +28,67 @@ export default function ModulesControls() {
         </button>
       </div>
 
-      {/* Publish All Dropdown and Add Module button */}
+      {/* Conditionally render Publish All Dropdown and Add Module button for faculty only */}
       <div className="d-flex">
-        {/* Publish All Dropdown */}
-        <div className="dropdown me-2">
-          <button
-            id="wd-publish-all-btn"
-            className="btn btn-lg btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <GreenCheckmark />
-            Publish All
-          </button>
-          <ul className="dropdown-menu">
-            <li>
-              <a id="wd-publish-all-modules-and-items-btn" className="dropdown-item" href="#">
+        {isFaculty && (
+          <>
+            {/* Publish All Dropdown */}
+            <div className="dropdown me-2">
+              <button
+                id="wd-publish-all-btn"
+                className="btn btn-lg btn-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+              >
                 <GreenCheckmark />
-                Publish all modules and items
-              </a>
-            </li>
-            <li>
-              <a id="wd-publish-modules-only-button" className="dropdown-item" href="#">
-                <GreenCheckmark />
-                Publish modules only
-              </a>
-            </li>
-            <li>
-              <a id="wd-unpublish-all-modules-and-items" className="dropdown-item" href="#">
-                <GreenCheckmark />
-                Unpublish all modules and items
-              </a>
-            </li>
-            <li>
-              <a id="wd-unpublish-modules-only" className="dropdown-item" href="#">
-                <GreenCheckmark />
-                Unpublish modules only
-              </a>
-            </li>
-          </ul>
-        </div>
+                Publish All
+              </button>
+              <ul className="dropdown-menu">
+                <li>
+                  <a id="wd-publish-all-modules-and-items-btn" className="dropdown-item" href="#">
+                    <GreenCheckmark />
+                    Publish all modules and items
+                  </a>
+                </li>
+                <li>
+                  <a id="wd-publish-modules-only-button" className="dropdown-item" href="#">
+                    <GreenCheckmark />
+                    Publish modules only
+                  </a>
+                </li>
+                <li>
+                  <a id="wd-unpublish-all-modules-and-items" className="dropdown-item" href="#">
+                    <GreenCheckmark />
+                    Unpublish all modules and items
+                  </a>
+                </li>
+                <li>
+                  <a id="wd-unpublish-modules-only" className="dropdown-item" href="#">
+                    <GreenCheckmark />
+                    Unpublish modules only
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-        {/* Add Module Button */}
-        <button
-          id="wd-add-module-btn"
-          className="btn btn-lg btn-danger d-inline-flex align-items-center"
-        >
-          <FaPlus className="me-2" />
-          Module
-        </button>
+            {/* Add Module Button */}
+            <button
+              className="btn btn-lg btn-danger me-1 float-end"
+              id="wd-add-module-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#wd-add-module-dialog"
+            >
+              <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+              Module
+            </button>
+            <ModuleEditor
+              dialogTitle="Add Module"
+              moduleName={moduleName}
+              setModuleName={setModuleName}
+              addModule={addModule}
+            />
+          </>
+        )}
       </div>
     </div>
   );
