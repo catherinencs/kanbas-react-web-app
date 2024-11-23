@@ -33,13 +33,29 @@ export default function TOC() {
         </a>
       </li>
       <li className="nav-item">
+        <a id="wd-a5" href="#/Labs/Lab5"
+          className={`nav-link ${pathname.includes("Lab5") ? "active" : ""}`}>
+          Lab 5
+        </a>
+      </li>
+      <li className="nav-item">
         <a id="wd-k" href="#/Kanbas" className="nav-link">
           Kanbas
         </a>
       </li>
       <li className="nav-item">
         <a id="wd-k" href="https://github.com/catherinencs" className="nav-link">
-          My GitHub
+          My GitHub 
+        </a>
+      </li>
+      <li className="nav-item">
+        <a id="wd-k" href="https://github.com/catherinencs/kanbas-node-server-app" className="nav-link">
+          New GitHub Repo (Node)
+        </a>
+      </li>
+      <li className="nav-item">
+        <a id="wd-k" href="https://kanbas-node-server-app-pxt7.onrender.com/" className="nav-link">
+          Root Server (Render)
         </a>
       </li>
     </ul>

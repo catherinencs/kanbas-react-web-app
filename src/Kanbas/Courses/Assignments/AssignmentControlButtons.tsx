@@ -1,26 +1,20 @@
 import { useSelector } from "react-redux";
-import { FaTrash } from "react-icons/fa6";
+import { FaTrash, FaPen } from "react-icons/fa6";
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
+import { Link, useParams } from "react-router-dom";
+import DeleteDialog from "../DeleteDialog";
 
-const DeleteAssignmentDialog = ({ deleteAssignment }: { deleteAssignment: () => void }) => (
-  <div id="wd-delete-assignment-dialog" className="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="staticBackdropLabel">Delete Assignment?</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" onClick={deleteAssignment} data-bs-dismiss="modal" className="btn btn-danger">Okay</button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const AssignmentControlButtons = ({ deleteAssignment }: { deleteAssignment: () => void }) => {
+export default function AssignmentControlButtons({
+  assignmentId,
+  deleteAssignment,
+  editAssignment,
+}: {
+  assignmentId: string;
+  deleteAssignment: (assignmentId: string) => void;
+  editAssignment: (assignmentId: string) => void;
+}) {
+  const { cid } = useParams(); // Get the course ID from the route
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
@@ -28,13 +22,27 @@ const AssignmentControlButtons = ({ deleteAssignment }: { deleteAssignment: () =
       <GreenCheckmark />
       {currentUser?.role === "FACULTY" && (
         <>
-          <FaTrash data-bs-toggle="modal" data-bs-target="#wd-delete-assignment-dialog" />
+          <Link
+            to={`/Kanbas/Courses/${cid}/Assignments/${assignmentId}/Editor`}
+            className="text-primary"
+            title="Edit Assignment"
+          >
+            <FaPen className="cursor-pointer" />
+          </Link>
+          <FaTrash
+            className="text-danger cursor-pointer"
+            title="Delete Assignment"
+            data-bs-toggle="modal"
+            data-bs-target={`#wd-delete-dialog-${assignmentId}`}
+          />
+          <DeleteDialog
+            id={assignmentId}
+            name="this assignment"
+            onDelete={() => deleteAssignment(assignmentId)}
+          />
         </>
       )}
-      <IoEllipsisVertical className="fs-4" />
-      <DeleteAssignmentDialog deleteAssignment={deleteAssignment} />
+      <IoEllipsisVertical className="fs-4 cursor-pointer" title="More Options" />
     </div>
   );
-};
-
-export default AssignmentControlButtons;
+}

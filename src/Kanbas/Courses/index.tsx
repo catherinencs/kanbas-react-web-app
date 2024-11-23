@@ -2,8 +2,8 @@ import CoursesNavigation from "./Navigation";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import Home from "./Home";
-import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/Editor";
+import AssignmentsList from "./Assignments";
+import AssignmentEditor from "./Assignments/AssignmentEditor";
 import PeopleTable from "./People/Table"
 import { FaAlignJustify } from "react-icons/fa";
 
@@ -31,8 +31,9 @@ const pathname = location.pathname;
             <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
-            <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+            <Route path="Assignments" element={<AssignmentsList />} />
+            <Route path="Assignments/:aid/Editor" element={<AssignmentEditor />} />
+            <Route path="Assignments/New" element={<AssignmentEditor isNew/>} />
             <Route path="People" element={<PeopleTable />} />
           </Routes>
         </div>
