@@ -6,7 +6,7 @@ import DeleteDialog from "./DeleteCourseDialog";
 import EditCourseDialog from "./EditCourseDialog";
 import ActionDialog from "./ActionDialog";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
-import { enrollUserInCourse, unenrollUserFromCourse } from "./Enrollments/client";
+import { enrollIntoCourse, unenrollFromCourse } from "./Account/client";
 import { findMyCourses } from "./Account/client";
 import { fetchAllCourses } from "./Courses/client";
 
@@ -22,6 +22,9 @@ interface DashboardProps {
   addNewCourse: (course: Course) => void;
   deleteCourse: (courseId: string) => void;
   updateCourse: (updatedCourse: Course) => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }
 
 export default function Dashboard({
@@ -29,6 +32,9 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  enrolling,
+  setEnrolling,
+  updateEnrollment
 }: DashboardProps) {
   const [course, setCourse] = useState({
     _id: Date.now().toString(),
@@ -86,7 +92,7 @@ export default function Dashboard({
 
   const handleEnroll = async (courseId: string) => {
     try {
-      await enrollUserInCourse(currentUser._id, courseId);
+      await enrollIntoCourse(currentUser._id, courseId);
       setEnrolledCourses((prev) => [...prev, courseId]);
     } catch (error) {
       console.error("Error enrolling in course:", error);
@@ -95,7 +101,7 @@ export default function Dashboard({
 
   const handleUnenroll = async (courseId: string) => {
     try {
-      await unenrollUserFromCourse(currentUser._id, courseId);
+      await unenrollFromCourse(currentUser._id, courseId);
       setEnrolledCourses((prev) => prev.filter((id) => id !== courseId));
     } catch (error) {
       console.error("Error unenrolling from course:", error);
@@ -130,10 +136,8 @@ export default function Dashboard({
 
   const toggleCoursesView = async () => {
     if (showAllCourses) {
-      // Switching back to "View My Enrollments" mode
       await fetchEnrollments();
     } else {
-      // Switching to "View All Courses" mode
       await fetchCourses();
     }
     setShowAllCourses(!showAllCourses);
@@ -145,23 +149,23 @@ export default function Dashboard({
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <h1 id="wd-dashboard-title">Dashboard
+        <button onClick={toggleCoursesView} className="float-end btn btn-primary" >
+          {showAllCourses ? "View My Courses" : "View All Courses"}
+        </button>
+      </h1>
       <hr />
       <div className="d-flex justify-content-between align-items-center">
         <h2 id="wd-dashboard-published">
           {isFaculty ? "Published Courses" : "My Courses"} ({displayedCourses.length})
         </h2>
-        {isFaculty ? (
+        {isFaculty && (
           <button
             className="btn btn-danger"
             data-bs-toggle="modal"
             data-bs-target="#wd-add-course-dialog"
           >
             Add New Course
-          </button>
-        ) : (
-          <button className="btn btn-primary" onClick={toggleCoursesView}>
-            {showAllCourses ? "View My Enrollments" : "View All Courses"}
           </button>
         )}
       </div>
@@ -186,69 +190,74 @@ export default function Dashboard({
                     style={{ height: 160 }}
                   />
                   <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">{course.name}</h5>
+                    <h5 className="wd-dashboard-course-title card-title">
+                      {course.name}</h5>
                     <p className="card-text">{course.description}</p>
                   </div>
                 </Link>
                 <div
-                  className="d-flex justify-content-end align-items-center p-2"
+                  className="d-flex justify-content-between align-items-center p-2"
                   style={{
                     backgroundColor: "#f8f9fa",
                     borderTop: "1px solid #e9ecef",
                   }}
                 >
-                  {isFaculty ? (
-                    <>
-                      <button
-                        className="btn btn-outline-primary btn-sm d-flex justify-content-center align-items-center me-2"
-                        title="Edit Course"
-                        data-bs-toggle="modal"
-                        data-bs-target={`#wd-edit-course-dialog-${course._id}`}
-                      >
-                        <FaPencilAlt />
-                      </button>
-                      <button
-                        className="btn btn-outline-danger btn-sm d-flex justify-content-center align-items-center"
-                        title="Delete Course"
-                        data-bs-toggle="modal"
-                        data-bs-target={`#wd-delete-course-dialog-${course._id}`}
-                      >
-                        <FaTrash />
-                      </button>
-                    </>
-                  ) : enrolledCourses.includes(course._id) ? (
-                    <>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target={`#wd-unenroll-course-dialog-${course._id}`}
-                      >
-                        Unenroll
-                      </button>
-                      <ActionDialog
-                        id={course._id}
-                        name={course.name}
-                        actionType="Unenroll"
-                        onConfirm={() => handleUnenroll(course._id)}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="btn btn-success btn-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target={`#wd-enroll-course-dialog-${course._id}`}
-                      >
-                        Enroll
-                      </button>
-                      <ActionDialog
-                        id={course._id}
-                        name={course.name}
-                        actionType="Enroll"
-                        onConfirm={() => handleEnroll(course._id)}
-                      />
+                  <div>
+                    {enrolledCourses.includes(course._id) ? (
+                      <>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#wd-unenroll-course-dialog-${course._id}`}
+                        >
+                          Unenroll
+                        </button>
+                        <ActionDialog
+                          id={course._id}
+                          name={course.name}
+                          actionType="Unenroll"
+                          onConfirm={() => handleUnenroll(course._id)}
+                        />
                       </>
-                  )}
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-success btn-sm"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#wd-enroll-course-dialog-${course._id}`}
+                        >
+                          Enroll
+                        </button>
+                        <ActionDialog
+                          id={course._id}
+                          name={course.name}
+                          actionType="Enroll"
+                          onConfirm={() => handleEnroll(course._id)}
+                        />
+                      </>
+                    )}
+                  </div>
+                  {isFaculty && (
+  <div className="d-flex">
+    <button
+      className="btn btn-outline-primary btn-sm d-flex justify-content-center align-items-center me-2"
+      title="Edit Course"
+      data-bs-toggle="modal"
+      data-bs-target={`#wd-edit-course-dialog-${course._id}`}
+    >
+      <FaPencilAlt />
+    </button>
+    <button
+      className="btn btn-outline-danger btn-sm d-flex justify-content-center align-items-center"
+      title="Delete Course"
+      data-bs-toggle="modal"
+      data-bs-target={`#wd-delete-course-dialog-${course._id}`}
+    >
+      <FaTrash />
+    </button>
+  </div>
+)}
+
                 </div>
               </div>
               <DeleteDialog

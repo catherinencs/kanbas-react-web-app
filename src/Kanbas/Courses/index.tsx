@@ -6,12 +6,35 @@ import AssignmentsList from "./Assignments";
 import AssignmentEditor from "./Assignments/AssignmentEditor";
 import PeopleTable from "./People/Table"
 import { FaAlignJustify } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import * as client from "./client";
+
 
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const location = useLocation();
 const pathname = location.pathname;
+const [users, setUsers] = useState([]);
+
+
+const fetchUsers = async () => {
+  try {
+    if (!cid) return; // Skip if course ID is missing
+    const users = await client.findUsersForCourse(cid); // Fetch users for the course
+    setUsers(users); // Update state
+    console.log("Users in state:", users); // Log the users state
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+};
+
+
+useEffect(() => {
+  if (cid) {
+    fetchUsers();
+  }
+}, [cid]);
 
   return (
     <div id="wd-courses" className="d-flex flex-column">
@@ -34,7 +57,7 @@ const pathname = location.pathname;
             <Route path="Assignments" element={<AssignmentsList />} />
             <Route path="Assignments/:aid/Editor" element={<AssignmentEditor />} />
             <Route path="Assignments/New" element={<AssignmentEditor isNew/>} />
-            <Route path="People" element={<PeopleTable />} />
+            <Route path="People" element={<PeopleTable users={users} />} />
           </Routes>
         </div>
       </div>

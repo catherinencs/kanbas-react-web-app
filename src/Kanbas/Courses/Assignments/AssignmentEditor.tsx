@@ -32,9 +32,17 @@ export default function AssignmentEditor({ isNew = false }: { isNew?: boolean })
   // State variables
   const [title, setTitle] = useState(assignment.title);
   const [description, setDescription] = useState(assignment.description);
-  const [availableDate, setAvailableDate] = useState(assignment.availableDate);
-  const [dueDate, setDueDate] = useState(assignment.dueDate);
-  const [availableUntil, setAvailableUntil] = useState(assignment.availableUntil);
+  const [availableDate, setAvailableDate] = useState(
+    assignment.availableDate ? new Date(assignment.availableDate).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]
+  );
+  const [dueDate, setDueDate] = useState(
+    assignment.dueDate ? new Date(assignment.dueDate).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]
+  );
+  const [availableUntil, setAvailableUntil] = useState(
+    assignment.availableUntil ? new Date(assignment.availableUntil).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]
+  );
+  
+  
   const [points, setPoints] = useState(assignment.points);
 
   // Save or Add Assignment
