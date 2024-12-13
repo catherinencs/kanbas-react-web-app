@@ -8,7 +8,13 @@ import PeopleTable from "./People/Table"
 import { FaAlignJustify } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import * as client from "./client";
-
+import Quizzes from "./Quizzes";
+import QuizEditor from "./Quizzes/QuizEditor";
+import QuizPreview from "./Quizzes/QuizPreview";
+import QuizDetails from "./Quizzes/QuizDetails";
+import QuizReview from "./Quizzes/QuizReview";
+import ProtectedRouteEditor from "./ProtectedRouteEditor";
+import ProtectedRouteQuizEditor from "./ProtectedRouteQuizEditor";
 
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
@@ -58,6 +64,26 @@ useEffect(() => {
             <Route path="Assignments/:aid/Editor" element={<AssignmentEditor />} />
             <Route path="Assignments/New" element={<AssignmentEditor isNew/>} />
             <Route path="People" element={<PeopleTable users={users} />} />
+            <Route path="Quizzes" element={<Quizzes />} />
+                <Route path="Quizzes/:qid" element={<QuizDetails />} />
+                <Route
+                  path="Quizzes/:qid/Edit/*"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizEditor />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
+                <Route
+                  path="Quizzes/:qid/Preview"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizPreview />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
+                <Route path="Quizzes/:qid/Review" element={<QuizReview />} />
+                <Route path="Quizzes/:qid/Attempt" element={<QuizPreview />} />
           </Routes>
         </div>
       </div>
